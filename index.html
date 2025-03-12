@@ -3,12 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provador de Fórmulas Proposicionais</title>
+    <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <title>Document</title>
 </head>
 <body>
-    
-    <script src="script.js"></script>
+    <h1>Provador de Fórmulas Proposicionais</h1>
+    <form id="calc-form">
+        <label for="expression">Expressão:</label>
+        <input type="text" id="expression" name="expression" required>
+        <div class="button-container">
+            <button type="button" onclick="insertSymbol('~')">∼</button>
+            <button type="button" onclick="insertSymbol('^')">^</button>
+            <button type="button" onclick="insertSymbol('v')">v</button>
+            <button type="button" onclick="insertSymbol('→')">→</button>
+            <button type="button" onclick="insertSymbol('↔')">↔</button>
+        </div>
+        <div class="button-container">
+            <button type="button" onclick="insertSymbol('A')">A</button>
+            <button type="button" onclick="insertSymbol('B')">B</button>
+            <button type="button" onclick="insertSymbol('C')">C</button>
+            <button type="button" onclick="insertSymbol('D')">D</button>
+        </div>
+        <button type="button" onclick="analyzeExpression()">Analisar</button>
+        <button type="button" onclick="proveTautology()">Provar Tautologia</button>
+    </form>
+    <p id="result"></p>
 </body>
 </html>

@@ -1,0 +1,28 @@
+.button-container {
+  margin: 10px 0;
+}
+button {
+  margin-right: 5px;
+}
+#result {
+  margin-top: 20px;
+}
+
+.button-container {
+  margin: 10px 0;
+}
+button {
+  margin-right: 5px;
+}
+#result {
+  margin-top: 20px;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  flex-direction: column;
+}
