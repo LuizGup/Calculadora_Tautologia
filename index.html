@@ -3,12 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <title>Document</title>
+    <title>Provador de Fórmulas Proposicionais</title>
+    <script src="script.js" defer></script>
 </head>
 <body>
+    <center><h1>Provador de Fórmulas Proposicionais</h1></center>
+    <hr/>
+    <form id="calc-form">
+        <label for="expression"><center>Expressão:</center></label>
+        <br>
+        <center><input type="text" id="expression" name="expression" required></center>
+        <br>
+        <table border="1" align="center" cellspacing="5" cellpadding="10">
+            <tr>
+                <td><button type="button" onclick="insertSymbol('~')">∼</button></td>
+                <td><button type="button" onclick="insertSymbol('^')">^</button></td>
+                <td><button type="button" onclick="insertSymbol('v')">v</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="insertSymbol('→')">→</button></td>
+                <td><button type="button" onclick="insertSymbol('↔')">↔</button></td>
+                <td><button type="button" onclick="insertSymbol('A')">A</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="insertSymbol('B')">B</button></td>
+                <td><button type="button" onclick="insertSymbol('C')">C</button></td>
+                <td><button type="button" onclick="insertSymbol('D')">D</button></td>
+            </tr>
+        </table>
+
+        <br>
+        <center><button type="button" onclick="analyzeExpression()">Analisar</button></center>
+        <center><button type="button" onclick="proveTautology()">Provar Tautologia</button></center>
+    </form>
     
-    <script src="script.js"></script>
+    <h2><center><p id="result"></p></center></h2>
 </body>
 </html>
