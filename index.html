@@ -5,29 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Provador de Fórmulas Proposicionais</title>
     <script src="script.js" defer></script>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Provador de Fórmulas Proposicionais</h1>
+    <center><h1>Provador de Fórmulas Proposicionais</h1></center>
+    <hr/>
     <form id="calc-form">
-        <label for="expression">Expressão:</label>
-        <input type="text" id="expression" name="expression" required>
-        <div class="button-container">
-            <button type="button" onclick="insertSymbol('~')">∼</button>
-            <button type="button" onclick="insertSymbol('^')">^</button>
-            <button type="button" onclick="insertSymbol('v')">v</button>
-            <button type="button" onclick="insertSymbol('→')">→</button>
-            <button type="button" onclick="insertSymbol('↔')">↔</button>
-        </div>
-        <div class="button-container">
-            <button type="button" onclick="insertSymbol('A')">A</button>
-            <button type="button" onclick="insertSymbol('B')">B</button>
-            <button type="button" onclick="insertSymbol('C')">C</button>
-            <button type="button" onclick="insertSymbol('D')">D</button>
-        </div>
-        <button type="button" onclick="analyzeExpression()">Analisar</button>
-        <button type="button" onclick="proveTautology()">Provar Tautologia</button>
+        <label for="expression"><center>Expressão:</center></label>
+        <br>
+        <center><input type="text" id="expression" name="expression" required></center>
+        <br>
+        <table border="1" align="center" cellspacing="5" cellpadding="10">
+            <tr>
+                <td><button type="button" onclick="insertSymbol('~')">∼</button></td>
+                <td><button type="button" onclick="insertSymbol('^')">^</button></td>
+                <td><button type="button" onclick="insertSymbol('v')">v</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="insertSymbol('→')">→</button></td>
+                <td><button type="button" onclick="insertSymbol('↔')">↔</button></td>
+                <td><button type="button" onclick="insertSymbol('A')">A</button></td>
+            </tr>
+            <tr>
+                <td><button type="button" onclick="insertSymbol('B')">B</button></td>
+                <td><button type="button" onclick="insertSymbol('C')">C</button></td>
+                <td><button type="button" onclick="insertSymbol('D')">D</button></td>
+            </tr>
+        </table>
+
+        <br>
+        <center><button type="button" onclick="analyzeExpression()">Analisar</button></center>
+        <center><button type="button" onclick="proveTautology()">Provar Tautologia</button></center>
     </form>
-    <p id="result"></p>
+    
+    <h2><center><p id="result"></p></center></h2>
 </body>
 </html>
