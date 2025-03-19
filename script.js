@@ -23,6 +23,7 @@ function analyzeExpression() {
 function proveTautology() {
     const expression = document.getElementById('expression').value;
     const result = checkTableaux(expression);
+    showTruthTable(expression);
     document.getElementById('result').innerText = `Resultado: ${result ? 'Verdadeiro' : 'Falso'}`;
 }
 
@@ -55,7 +56,6 @@ function syntacticAnalysis(expression) {
     return { valid: true };
 }
 
-// Função para aplicar as regras do teorema de Tableaux
 // Função para aplicar as regras do teorema de Tableaux
 function checkTableaux(expression) {
     // Regras do teorema de Tableaux
@@ -99,4 +99,78 @@ function checkTableaux(expression) {
     const parsedExpression = expression.split('').map(char => variables.hasOwnProperty(char) ? variables[char] : char);
 
     return solve(parsedExpression);
+}
+
+// Função para gerar a tabela verdade
+function generateTruthTable(expression) {
+    const variables = Array.from(new Set(expression.match(/[A-Z]/g))); // Extrai as variáveis únicas da expressão
+    const table = []; // Tabela verdade
+
+    // Gera todas as combinações de valores para as variáveis
+    for (let i = 0; i < (1 << variables.length); i++) {
+        const row = {}; // Linha da tabela
+        variables.forEach((varName, idx) => {
+            row[varName] = Boolean(i & (1 << idx)); // Atribui valores 0 ou 1 para cada variável
+        });
+
+        // Substitui as variáveis na expressão pelos seus valores booleanos
+        let parsedExpression = expression;
+        variables.forEach((varName) => {
+            parsedExpression = parsedExpression.replace(new RegExp(varName, 'g'), row[varName] ? '1' : '0');
+        });
+
+        // Substitui os operadores lógicos por seus equivalentes em JavaScript
+        parsedExpression = parsedExpression.replace(/~+/g, '!');
+        parsedExpression = parsedExpression.replace(/\^/g, '&&');
+        parsedExpression = parsedExpression.replace(/v/g, '||');
+        parsedExpression = parsedExpression.replace(/→/g, '|| !');
+        parsedExpression = parsedExpression.replace(/↔/g, '===');
+
+        // Avalia a expressão
+        try {
+            const result = eval(parsedExpression);
+            row.result = result ? 'V' : 'F'; // Adiciona o resultado da expressão (Verdadeiro ou Falso)
+            table.push(row);
+        } catch (e) {
+            console.error("Erro ao avaliar a expressão:", e);
+            row.result = 'Erro';
+            table.push(row);
+        }
+    }
+
+    return table;
+}
+
+// Função para mostrar a tabela verdade no HTML
+function showTruthTable(expression) {
+    const table = generateTruthTable(expression);
+    const tableContainer = document.getElementById('truthTable');
+    tableContainer.innerHTML = ''; // Limpa a tabela existente
+
+    // Cria o cabeçalho da tabela
+    const header = document.createElement('tr');
+    const variables = Array.from(new Set(expression.match(/[A-Z]/g))); // Extrai as variáveis únicas
+    variables.forEach((varName) => {
+        const th = document.createElement('th');
+        th.innerText = varName;
+        header.appendChild(th);
+    });
+    const thResult = document.createElement('th');
+    thResult.innerText = 'Resultado';
+    header.appendChild(thResult);
+    tableContainer.appendChild(header);
+
+    // Cria as linhas da tabela
+    table.forEach((row) => {
+        const tr = document.createElement('tr');
+        variables.forEach((varName) => {
+            const td = document.createElement('td');
+            td.innerText = row[varName] ? 'V' : 'F';
+            tr.appendChild(td);
+        });
+        const tdResult = document.createElement('td');
+        tdResult.innerText = row.result;
+        tr.appendChild(tdResult);
+        tableContainer.appendChild(tr);
+    });
 }
