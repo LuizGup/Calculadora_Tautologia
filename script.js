@@ -56,33 +56,47 @@ function syntacticAnalysis(expression) {
 }
 
 // Função para aplicar as regras do teorema de Tableaux
+// Função para aplicar as regras do teorema de Tableaux
 function checkTableaux(expression) {
     // Regras do teorema de Tableaux
     const rules = {
-        "~": (a) => !a,
-        "^": (a, b) => a && b,
-        "v": (a, b) => a || b,
-        "→": (a, b) => !a || b,
-        "↔": (a, b) => a === b
+        "~": (a) => !a,         // Negação
+        "^": (a, b) => a && b,  // Conjunção (AND)
+        "v": (a, b) => a || b,  // Disjunção (OR)
+        "→": (a, b) => !a || b, // Implicação (A → B)
+        "↔": (a, b) => a === b // Bicondicional (A ↔ B)
     };
+
+    // Função para verificar se uma expressão é atômica (uma variável)
+    function isAtomic(exp) {
+        return /^[A-Z]$/.test(exp);
+    }
 
     // Função recursiva para resolver a expressão
     function solve(exp) {
-        if (typeof exp === 'boolean') return exp;
-        if (exp.length === 1) return exp[0];
+        if (isAtomic(exp)) return exp; // Se for uma variável, retorna ela mesma
 
+        // Verifica se a expressão é uma negação (~), como ~A
+        if (exp[0] === "~") {
+            return rules["~"](solve(exp.slice(1))); // Aplica a negação recursivamente
+        }
+
+        // Procura o operador binário na expressão (se houver)
         for (const symbol in rules) {
             const index = exp.indexOf(symbol);
             if (index !== -1) {
-                const a = solve(exp.slice(0, index));
-                const b = solve(exp.slice(index + 1));
-                return rules[symbol](a, b);
+                const left = solve(exp.slice(0, index)); // Esquerda do operador
+                const right = solve(exp.slice(index + 1)); // Direita do operador
+                return rules[symbol](left, right); // Aplica o operador
             }
         }
-        return false;
+
+        return false; // Se não encontrar uma forma válida de resolver
     }
 
+    // Substitui as variáveis na expressão por valores arbitrários para testar
     const variables = { A: true, B: true, C: true, D: true }; // Valores arbitrários para teste
     const parsedExpression = expression.split('').map(char => variables.hasOwnProperty(char) ? variables[char] : char);
+
     return solve(parsedExpression);
 }

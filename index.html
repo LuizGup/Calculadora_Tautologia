@@ -6,6 +6,7 @@
     <title>Provador de Fórmulas Proposicionais</title>
     <script src="script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <center><h1 class="text-3xl pt-6 pb-6 font-bold ">Provador de Fórmulas Proposicionais</h1></center>
@@ -25,7 +26,7 @@
             <tr>
                 <td><button class="border-1-[#757575] mb-4 bg-[#D1D5DB] rounded-md w-12 h-12" type="button" onclick="insertSymbol('C')">C</button></td>
                 <td><button class="border-1-[#757575] mb-4 bg-[#D1D5DB] rounded-md w-12 h-12" type="button" onclick="insertSymbol('D')">D</button></td>
-                <td><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="insertSymbol('^')">^</button></td>                
+                <td><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="insertSymbol('^')">^</button></td>
             </tr>
             <tr>
                 <td><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="insertSymbol('~')">∼</button></td>
@@ -39,6 +40,9 @@
         <center><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-44 h-8" type="button" onclick="proveTautology()">Provar Tautologia</button></center>
    
         <h2><center><p id="result" class="font-bold text-[#0D47A1] text-xl pb-6"></p></center></h2>
+
+        <div id="truthTable"></div>
+
     </form>
 </center>   
      
