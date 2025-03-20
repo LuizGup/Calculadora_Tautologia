@@ -247,10 +247,10 @@ function deletarExpressao() {
 function deletarTexto() {
   const expressionInput = document.getElementById("expression");
   expressionInput.value = expressionInput.value.slice(0, -1);
+}
 
-  // Função para inserir símbolos na expressão
-  function inserirTexto(symbol) {
-    const expressionInput = document.getElementById("expression");
-    expressionInput.value += symbol;
-  }
+// Função para inserir símbolos na expressão
+function inserirTexto(symbol) {
+  const expressionInput = document.getElementById("expression");
+  expressionInput.value += symbol;
 }
