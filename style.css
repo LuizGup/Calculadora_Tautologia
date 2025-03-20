@@ -1,3 +1,6 @@
 #calc-form{
   margin-top: 5rem;
+  border: 2px solid #000;
+  padding: 2rem;
+  border-radius: 20px;
 }

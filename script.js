@@ -58,6 +58,9 @@ function syntacticAnalysis(expression) {
 
 // Função para aplicar as regras do teorema de Tableaux
 function checkTableaux(expression) {
+    console.log(`Analisando a expressão: ${expression}`);
+    expression = expression.replace(/\s+/g, '');
+    console.log(`Analisando a expressão modificada: ${expression}`);
     // Regras do teorema de Tableaux
     const rules = {
         "~": (a) => !a,         // Negação
@@ -216,4 +219,14 @@ function showTruthTable(expression) {
         tr.appendChild(tdResult);
         tableContainer.appendChild(tr);
     });
+}
+
+function deleteExpression() {
+    document.getElementById('expression').value = '';
+}
+
+// Apaga apenas o último símbolo da expressão
+function deleteSymbol() {
+    const expressionInput = document.getElementById('expression');
+    expressionInput.value = expressionInput.value.slice(0, -1);
 }

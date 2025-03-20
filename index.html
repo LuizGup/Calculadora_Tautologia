@@ -19,6 +19,11 @@
         <br>
         <table class="flex justify-center border-separate border-spacing-5">
             <tr>
+                <td><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="insertSymbol('(')">(</button></td>
+                <td><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="insertSymbol(')')">)</button></td>
+                <td><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="deleteSymbol()">⌫</button></td>
+            </tr>
+            <tr>
                 <td><button class="border-1-[#757575] mb-4 bg-[#D1D5DB] rounded-md w-12 h-12" type="button" onclick="insertSymbol('A')">A</button></td>
                 <td><button class="border-1-[#757575] mb-4 bg-[#D1D5DB] rounded-md w-12 h-12" type="button" onclick="insertSymbol('B')">B</button></td>
                 <td><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="insertSymbol('v')">v</button></td>
@@ -34,6 +39,8 @@
                 <td><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="insertSymbol('→')">→</button></td>
             </tr>
         </table>
+
+        <center><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-12 h-12" type="button" onclick="deleteExpression()">del</button></center>
 
         <br>
         <center><button class="border-1-[#757575] mb-4 bg-[#F97316] rounded-md w-24 h-8" type="button" onclick="analyzeExpression()">Analisar</button></center>
