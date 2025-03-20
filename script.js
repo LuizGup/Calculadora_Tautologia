@@ -87,37 +87,55 @@ function mostrarTabelaVerdade(tabela, expressaoOriginal) {
   tableContainer.innerHTML = "";
 
   if (tabela.length === 0) {
-    tableContainer.innerHTML = "<p>Erro ao gerar a tabela verdade.</p>";
+    tableContainer.innerHTML = "<p class='text-red-500 font-bold'>Erro ao gerar a tabela verdade.</p>";
     return;
   }
 
+  // Criação do cabeçalho da tabela com estilo
   const header = document.createElement("tr");
   const variables = Object.keys(tabela[0]).filter((key) => key !== "resultado");
 
+  // Adicionando as colunas do cabeçalho
   variables.forEach((varName) => {
     const th = document.createElement("th");
     th.innerText = varName;
+    th.classList.add("px-4", "py-2", "text-left", "bg-gray-200", "text-sm", "font-medium", "text-gray-700", "border", "border-gray-300");
     header.appendChild(th);
   });
 
+  // Coluna para o resultado
   const thResult = document.createElement("th");
-  thResult.innerText = expressaoOriginal; // Agora exibe a expressão original como título da coluna!
+  thResult.innerText = expressaoOriginal;
+  thResult.classList.add("px-4", "py-2", "text-left", "bg-gray-200", "text-sm", "font-medium", "text-gray-700", "border", "border-gray-300");
   header.appendChild(thResult);
   tableContainer.appendChild(header);
 
-  tabela.forEach((row) => {
+  // Adicionando as linhas de dados
+  tabela.forEach((row, index) => {
     const tr = document.createElement("tr");
+    tr.classList.add(index % 2 === 0 ? "bg-white" : "bg-gray-50"); // Alterna as cores das linhas
+
+    // Adicionando as variáveis de cada linha
     variables.forEach((varName) => {
       const td = document.createElement("td");
       td.innerText = row[varName] ? "V" : "F";
+      td.classList.add("px-4", "py-2", "text-center", "text-sm", "font-medium", "text-gray-900", "border", "border-gray-300");
       tr.appendChild(td);
     });
+
+    // Adicionando o resultado de cada linha
     const tdResult = document.createElement("td");
     tdResult.innerText = row.resultado;
+    tdResult.classList.add("px-4", "py-2", "text-center", "text-sm", "font-medium", "text-gray-900", "border", "border-gray-300");
     tr.appendChild(tdResult);
+
     tableContainer.appendChild(tr);
   });
+
+  // Estilizando o container da tabela
+  tableContainer.classList.add("overflow-x-auto", "shadow-md", "rounded-lg", "border-collapse", "my-4");
 }
+
 
 // Função para análise léxica
 function analizeLexica(expression) {
