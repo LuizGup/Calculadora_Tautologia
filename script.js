@@ -17,7 +17,7 @@ function analizarExpressao() {
 function provarTautologia() {
   const expression = document.getElementById("expression").value;
   const { tabela, ehTautologia } = checarTautologiaETabela(expression);
-  mostrarTabelaVerdade(tabela);
+  mostrarTabelaVerdade(tabela, expression); // Passamos a expressão aqui!
   document.getElementById("result").innerText = `Resultado: ${ehTautologia ? "Verdadeiro" : "Falso"}`;
 }
 
@@ -82,7 +82,7 @@ function checarTautologiaETabela(expression) {
 }
 
 // Função para exibir a tabela verdade no HTML
-function mostrarTabelaVerdade(tabela) {
+function mostrarTabelaVerdade(tabela, expressaoOriginal) {
   const tableContainer = document.getElementById("truthTable");
   tableContainer.innerHTML = "";
 
@@ -101,7 +101,7 @@ function mostrarTabelaVerdade(tabela) {
   });
 
   const thResult = document.createElement("th");
-  thResult.innerText = "Resultado";
+  thResult.innerText = expressaoOriginal; // Agora exibe a expressão original como título da coluna!
   header.appendChild(thResult);
   tableContainer.appendChild(header);
 
