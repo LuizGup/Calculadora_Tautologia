@@ -1,14 +1,14 @@
 // Função para inserir símbolos na expressão
-function insertSymbol(symbol) {
+function inserirTexto(symbol) {
     const expressionInput = document.getElementById('expression');
     expressionInput.value += symbol;
 }
 
 // Função para analisar a expressão
-function analyzeExpression() {
+function analizarExpressao() {
     const expression = document.getElementById('expression').value;
-    const lexResult = lexicalAnalysis(expression);
-    const synResult = syntacticAnalysis(expression);
+    const lexResult = analizeLexica(expression);
+    const synResult = analizeSintatica(expression);
 
     if (!lexResult.valid) {
         document.getElementById('result').innerText = `Erro Léxico: ${lexResult.error}`;
@@ -20,15 +20,15 @@ function analyzeExpression() {
 }
 
 // Função para calcular a expressão lógica usando o teorema de Tableaux
-function proveTautology() {
+function provarTautologia() {
     const expression = document.getElementById('expression').value;
-    const result = checkTableaux(expression);
-    showTruthTable(expression);
+    const result = checarTautologia(expression);
+    mostrarTabelaVerdade(expression);
     document.getElementById('result').innerText = `Resultado: ${result ? 'Verdadeiro' : 'Falso'}`;
 }
 
 // Função para análise léxica
-function lexicalAnalysis(expression) {
+function analizeLexica(expression) {
     const validSymbols = ['~', '^', 'v', '→', '↔', 'A', 'B', 'C', 'D', '(', ')'];
     for (let char of expression) {
         if (!validSymbols.includes(char)) {
@@ -39,7 +39,7 @@ function lexicalAnalysis(expression) {
 }
 
 // Função para análise sintática
-function syntacticAnalysis(expression) {
+function analizeSintatica(expression) {
     // Verificar parênteses balanceados
     let balance = 0;
     for (let char of expression) {
@@ -57,7 +57,7 @@ function syntacticAnalysis(expression) {
 }
 
 // Função para aplicar as regras do teorema de Tableaux
-function checkTableaux(expression) {
+function checarTautologia(expression) {
     console.log(`Analisando a expressão: ${expression}`);
     expression = expression.replace(/\s+/g, '');
     console.log(`Analisando a expressão modificada: ${expression}`);
@@ -71,23 +71,23 @@ function checkTableaux(expression) {
     };
 
     // Função para substituir variáveis na expressão
-    function replaceVariables(expression, variables) {
+    function substituirVariaveis(expression, variables) {
         return expression.replace(/[A-Z]/g, (char) => variables[char] ? "true" : "false");
     }
 
-    // Função para resolver a expressão lógica corretamente
-    function solve(exp) {
-        console.log(`Resolvendo: ${exp}`);
+    // Função para reresolverr a expressão lógica corretamente
+    function resolver(exp) {
+        console.log(`Reresolverndo: ${exp}`);
 
-        // Resolver parênteses primeiro
+        // Reresolverr parênteses primeiro
         while (/\(([^()]+)\)/.test(exp)) {
             exp = exp.replace(/\(([^()]+)\)/g, (match, innerExp) => {
-                console.log(`Resolvendo parênteses: (${innerExp})`);
-                return solve(innerExp);
+                console.log(`Reresolverndo parênteses: (${innerExp})`);
+                return resolver(innerExp);
             });
         }
 
-        // Resolver negações (~)
+        // Reresolverr negações (~)
         while (/\~(true|false)/.test(exp)) {
             exp = exp.replace(/\~(true|false)/g, (match, val) => {
                 let negated = val === "true" ? "false" : "true";
@@ -128,11 +128,11 @@ function checkTableaux(expression) {
         console.log(`Teste de combinação: ${JSON.stringify(variables)}`);
 
         // Substituir variáveis na expressão
-        let parsedExpression = replaceVariables(expression, variables);
+        let parsedExpression = substituirVariaveis(expression, variables);
         console.log(`Expressão com valores substituídos: ${parsedExpression}`);
 
-        // Resolver a expressão lógica
-        const result = solve(parsedExpression);
+        // Reresolverr a expressão lógica
+        const result = resolver(parsedExpression);
         console.log(`Resultado da expressão para ${JSON.stringify(variables)}: ${result}`);
 
         // Se algum resultado for falso, a expressão não é uma tautologia
@@ -148,7 +148,7 @@ function checkTableaux(expression) {
 }
 
 // Função para gerar a tabela verdade
-function generateTruthTable(expression) {
+function gerarTabelaVerdade(expression) {
     const variables = Array.from(new Set(expression.match(/[A-Z]/g))); // Extrai as variáveis únicas da expressão
     const table = []; // Tabela verdade
 
@@ -188,8 +188,8 @@ function generateTruthTable(expression) {
 }
 
 // Função para mostrar a tabela verdade no HTML
-function showTruthTable(expression) {
-    const table = generateTruthTable(expression);
+function mostrarTabelaVerdade(expression) {
+    const table = gerarTabelaVerdade(expression);
     const tableContainer = document.getElementById('truthTable');
     tableContainer.innerHTML = ''; // Limpa a tabela existente
 
@@ -221,12 +221,12 @@ function showTruthTable(expression) {
     });
 }
 
-function deleteExpression() {
+function deletarExpressao() {
     document.getElementById('expression').value = '';
 }
 
 // Apaga apenas o último símbolo da expressão
-function deleteSymbol() {
+function deletarTexto() {
     const expressionInput = document.getElementById('expression');
     expressionInput.value = expressionInput.value.slice(0, -1);
 }
