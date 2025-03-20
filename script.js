@@ -64,41 +64,84 @@ function checkTableaux(expression) {
         "^": (a, b) => a && b,  // Conjunção (AND)
         "v": (a, b) => a || b,  // Disjunção (OR)
         "→": (a, b) => !a || b, // Implicação (A → B)
-        "↔": (a, b) => a === b // Bicondicional (A ↔ B)
+        "↔": (a, b) => a === b  // Bicondicional (A ↔ B)
     };
 
-    // Função para verificar se uma expressão é atômica (uma variável)
-    function isAtomic(exp) {
-        return /^[A-Z]$/.test(exp);
+    // Função para substituir variáveis na expressão
+    function replaceVariables(expression, variables) {
+        return expression.replace(/[A-Z]/g, (char) => variables[char] ? "true" : "false");
     }
 
-    // Função recursiva para resolver a expressão
+    // Função para resolver a expressão lógica corretamente
     function solve(exp) {
-        if (isAtomic(exp)) return exp; // Se for uma variável, retorna ela mesma
+        console.log(`Resolvendo: ${exp}`);
 
-        // Verifica se a expressão é uma negação (~), como ~A
-        if (exp[0] === "~") {
-            return rules["~"](solve(exp.slice(1))); // Aplica a negação recursivamente
+        // Expressão regular para encontrar parênteses
+        while (/\(([^()]+)\)/.test(exp)) {
+            exp = exp.replace(/\(([^()]+)\)/g, (match, innerExp) => {
+                console.log(`Resolvendo parênteses: (${innerExp})`);
+                return solve(innerExp);
+            });
         }
 
-        // Procura o operador binário na expressão (se houver)
-        for (const symbol in rules) {
-            const index = exp.indexOf(symbol);
-            if (index !== -1) {
-                const left = solve(exp.slice(0, index)); // Esquerda do operador
-                const right = solve(exp.slice(index + 1)); // Direita do operador
-                return rules[symbol](left, right); // Aplica o operador
+        // Resolver negações (~)
+        while (/\~(true|false)/.test(exp)) {
+            exp = exp.replace(/\~(true|false)/g, (match, val) => {
+                let negated = val === "true" ? "false" : "true";
+                console.log(`Negando ${val} -> ${negated}`);
+                return negated;
+            });
+        }
+
+        // Aplicar operadores binários na ordem correta
+        const precedence = ["^", "v", "→", "↔"];
+
+        for (let op of precedence) {
+            while (new RegExp(`(true|false)\\${op}(true|false)`).test(exp)) {
+                exp = exp.replace(new RegExp(`(true|false)\\${op}(true|false)`), (match, left, right) => {
+                    let leftBool = left === "true";
+                    let rightBool = right === "true";
+                    let result = rules[op](leftBool, rightBool);
+                    console.log(`Aplicando ${op} entre ${leftBool} e ${rightBool} -> ${result}`);
+                    return result.toString();
+                });
             }
         }
 
-        return false; // Se não encontrar uma forma válida de resolver
+        return exp === "true";
     }
 
-    // Substitui as variáveis na expressão por valores arbitrários para testar
-    const variables = { A: true, B: true, C: true, D: true }; // Valores arbitrários para teste
-    const parsedExpression = expression.split('').map(char => variables.hasOwnProperty(char) ? variables[char] : char);
+    // Identifica todas as variáveis na expressão
+    const variablesSet = new Set(expression.match(/[A-Z]/g));
+    const variablesArray = Array.from(variablesSet);
 
-    return solve(parsedExpression);
+    // Testa todas as combinações possíveis de valores (true/false) para as variáveis
+    for (let i = 0; i < (1 << variablesArray.length); i++) {
+        let variables = {};
+        variablesArray.forEach((variable, idx) => {
+            variables[variable] = Boolean(i & (1 << idx));
+        });
+
+        console.log(`Teste de combinação: ${JSON.stringify(variables)}`);
+
+        // Substituir variáveis na expressão
+        let parsedExpression = replaceVariables(expression, variables);
+        console.log(`Expressão com valores substituídos: ${parsedExpression}`);
+
+        // Resolver a expressão lógica
+        const result = solve(parsedExpression);
+        console.log(`Resultado da expressão para ${JSON.stringify(variables)}: ${result}`);
+
+        // Se algum resultado for falso, a expressão não é uma tautologia
+        if (!result) {
+            console.log(`Resultado falso para ${JSON.stringify(variables)}, logo não é uma tautologia.`);
+            return false;
+        }
+    }
+
+    // Se a expressão for verdadeira para todas as combinações, é uma tautologia
+    console.log('A expressão é uma tautologia (verdadeira para todas as combinações).');
+    return true;
 }
 
 // Função para gerar a tabela verdade
