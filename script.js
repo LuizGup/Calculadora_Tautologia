@@ -202,7 +202,7 @@ function mostrarTabelaVerdade(expression) {
         header.appendChild(th);
     });
     const thResult = document.createElement('th');
-    thResult.innerText = 'Resultado';
+    thResult.innerText = ' -> Resultado';
     header.appendChild(thResult);
     tableContainer.appendChild(header);
 

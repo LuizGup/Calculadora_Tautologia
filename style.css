@@ -21,30 +21,8 @@ button:hover{
   color: #fff;
 }
 
-#buttonNumber:active {
+.buttonNumber:active {
   background-color: #000;
   color: #fff;
-  width: 42px;
-  height: 44px;
-}
-
-#buttonDelete:active {
-  background-color: #000;
-  color: #fff;
-  width: 46px;
-  height: 46px;
-}
-
-#buttonAnalisar:active {
-  background-color: #000;
-  color: #fff;
-  width: 86px;
-  height: 28px;
-}
-
-#buttonTauto:active {
-  background-color: #000;
-  color: #fff;
-  width: 160px;
-  height: 30px;
+  scale: 0.9;
 }
