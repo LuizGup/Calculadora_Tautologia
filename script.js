@@ -76,7 +76,7 @@ function checkTableaux(expression) {
     function solve(exp) {
         console.log(`Resolvendo: ${exp}`);
 
-        // Expressão regular para encontrar parênteses
+        // Resolver parênteses primeiro
         while (/\(([^()]+)\)/.test(exp)) {
             exp = exp.replace(/\(([^()]+)\)/g, (match, innerExp) => {
                 console.log(`Resolvendo parênteses: (${innerExp})`);
@@ -89,23 +89,23 @@ function checkTableaux(expression) {
             exp = exp.replace(/\~(true|false)/g, (match, val) => {
                 let negated = val === "true" ? "false" : "true";
                 console.log(`Negando ${val} -> ${negated}`);
+                let updatedExp = exp.replace(match, negated);
+                console.log(`Expressão após negação: ${updatedExp}`);
                 return negated;
             });
         }
 
-        // Aplicar operadores binários na ordem correta
-        const precedence = ["^", "v", "→", "↔"];
+        // **Correção principal: Aplicar operadores corretamente**
+        const operatorRegex = /(true|false)([v^→↔])(true|false)/;
 
-        for (let op of precedence) {
-            while (new RegExp(`(true|false)\\${op}(true|false)`).test(exp)) {
-                exp = exp.replace(new RegExp(`(true|false)\\${op}(true|false)`), (match, left, right) => {
-                    let leftBool = left === "true";
-                    let rightBool = right === "true";
-                    let result = rules[op](leftBool, rightBool);
-                    console.log(`Aplicando ${op} entre ${leftBool} e ${rightBool} -> ${result}`);
-                    return result.toString();
-                });
-            }
+        while (operatorRegex.test(exp)) {
+            exp = exp.replace(operatorRegex, (match, left, op, right) => {
+                let leftBool = left === "true";
+                let rightBool = right === "true";
+                let result = rules[op](leftBool, rightBool);
+                console.log(`Aplicando ${op} entre ${leftBool} e ${rightBool} -> ${result}`);
+                return result.toString();
+            });
         }
 
         return exp === "true";
