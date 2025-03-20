@@ -68,7 +68,7 @@ function checarTautologia(expression) {
   const rules = {
     "~": (a) => !a, // Negação
     "^": (a, b) => a && b, // Conjunção (AND)
-    v: (a, b) => a || b, // Disjunção (OR)
+    "v": (a, b) => a || b, // Disjunção (OR)
     "→": (a, b) => !a || b, // Implicação (A → B)
     "↔": (a, b) => a === b, // Bicondicional (A ↔ B)
   };
